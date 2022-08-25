@@ -25,10 +25,6 @@ async def on_ready():
     print(f'{BOTNAME} is ready')
 
 
-@bot.command()
-async def foo(ctx, arg):
-    await ctx.send(arg)
-
 
 @bot.command()
 async def runner(ctx, *args):
@@ -126,15 +122,6 @@ async def purgechat(ctx, args):
 print('Debug')
 bot.run(TOKEN)
 
-def get_roleids():
-    runid = bot.get_guild(GUILDID).get_role(RUNNERROLEID)
-    print('Runner rooli alustettu')
-    huntid = bot.get_guild(GUILDID).get_role(HUNTERROLEID)
-    print('Hunter rooli alustettu')
-    return runid, huntid
 
-
-def testi(moro = 'moro'):
-    print(moro)
 
 
