@@ -72,20 +72,18 @@ async def hunter(ctx, *args):
 
 @bot.command()
 async def draw(ctx, arg1, arg2: int):
-    if arg1 == 'hunter': 
+    #BUG Voi arpoa saman tyypin kaksi kertaa
+    if arg1 == 'hunter':
         arvottava_rooli = ctx.guild.get_role(HUNTERROLEID)
         vastakkainen_rooli = ctx.guild.get_role(RUNNERROLEID)
     else:
         arvottava_rooli = ctx.guild.get_role(RUNNERROLEID)
-        vastakkainen_rooli = ctx.guild.get_role(HUNTERROLEID)
-    
-    
+        vastakkainen_rooli = ctx.guild.get_role(HUNTERROLEID)      
     kaikki = ctx.guild.members
     ihmiset = []
     for member in kaikki:
         if not member.bot:
-            ihmiset.append(member)
-            
+            ihmiset.append(member)          
     i = 0
     while i < arg2:
         randnum = random.randint(0, len(ihmiset))
