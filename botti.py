@@ -7,7 +7,7 @@ from tokenize import String
 import discord
 from discord.ext import commands
 import random
-
+#Tee tiedosto botconfig, johon lisätään seuraavat tiedot:
 TOKEN = botconfig.TOKEN
 BOTNAME = botconfig.BOTNAME
 RUNNERROLEID = botconfig.RUNNERROLEID
