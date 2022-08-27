@@ -1,8 +1,7 @@
 import botconfig
-from re import purge
 import string
 from tabnanny import check
-from time import sleep
+import time
 from tokenize import String
 import discord
 from discord.ext import commands
@@ -19,6 +18,7 @@ RUNNERCHATID = botconfig.RUNNERCHATID
 
 intents = discord.Intents().all()
 bot = commands.Bot(command_prefix='!', intents=intents)
+starttime = 0
 
 @bot.event
 async def on_ready():
@@ -76,9 +76,11 @@ async def draw(ctx, arg1, arg2: int):
     if arg1 == 'hunter':
         arvottava_rooli = ctx.guild.get_role(HUNTERROLEID)
         vastakkainen_rooli = ctx.guild.get_role(RUNNERROLEID)
-    else:
+    elif arg1 == 'runner':
         arvottava_rooli = ctx.guild.get_role(RUNNERROLEID)
-        vastakkainen_rooli = ctx.guild.get_role(HUNTERROLEID)      
+        vastakkainen_rooli = ctx.guild.get_role(HUNTERROLEID)
+    else:
+        ctx.send('Ilmoita, mikä rooli arvotaan \n Esim: !draw hunter 1')
     kaikki = ctx.guild.members
     ihmiset = []
     for member in kaikki:
@@ -116,6 +118,14 @@ async def purgechat(ctx, args):
     chat_to_delete = ctx.guild.get_channel(chatid)
     deleted = await chat_to_delete.purge(limit=50)
     await chat_to_delete.send(f'Poistettu {len(deleted)} viestiä kanavalta {chat_to_delete.name}')
+
+@bot.command()
+async def timer(ctx, arg):
+    if arg == 'start':
+        await ctx.send(f'Ajastin käynnistetty {time.ctime()}')
+    if arg == 'end':
+        endtime = time.time()
+        await ctx.send(f'Ajastin pysäytetty. Pelin kesto: {starttime-endtime}')
 
 print('Debug')
 bot.run(TOKEN)
