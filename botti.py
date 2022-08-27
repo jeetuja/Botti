@@ -86,7 +86,7 @@ async def draw(ctx, arg1, arg2: int):
             ihmiset.append(member)          
     i = 0
     while i < arg2:
-        randnum = random.randint(0, len(ihmiset))
+        randnum = random.randint(0, len(ihmiset)-1)
         await ihmiset[randnum].add_roles(arvottava_rooli)
         await ihmiset[randnum].add_roles(vastakkainen_rooli)
         await ctx.send(f'Arvottu {arvottava_rooli.name}: {ihmiset[randnum].name}')
