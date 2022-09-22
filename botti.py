@@ -6,6 +6,8 @@ from tokenize import String
 import discord
 from discord.ext import commands
 import random
+import logging
+
 #Tee tiedosto botconfig, johon lisätään seuraavat tiedot:
 TOKEN = botconfig.TOKEN
 BOTNAME = botconfig.BOTNAME
@@ -18,7 +20,7 @@ RUNNERCHATID = botconfig.RUNNERCHATID
 
 intents = discord.Intents().all()
 bot = commands.Bot(command_prefix='!', intents=intents)
-starttime = 0
+testi = 0
 
 @bot.event
 async def on_ready():
@@ -73,19 +75,28 @@ async def hunter(ctx, *args):
 @bot.command()
 async def draw(ctx, arg1, arg2: int):
     #BUG Voi arpoa saman tyypin kaksi kertaa
+    kaikki = ctx.guild.members
+    ihmiset = []
+    for member in kaikki:
+        if not member.bot:
+            ihmiset.append(member)
+    
     if arg1 == 'hunter':
         arvottava_rooli = ctx.guild.get_role(HUNTERROLEID)
         vastakkainen_rooli = ctx.guild.get_role(RUNNERROLEID)
     elif arg1 == 'runner':
         arvottava_rooli = ctx.guild.get_role(RUNNERROLEID)
         vastakkainen_rooli = ctx.guild.get_role(HUNTERROLEID)
+    elif arg1 == 'names':
+        await ctx.send('Arvonnan tulos:')
+        i = 0
+        while i < arg2:
+            randnum = random.randint(0, len(ihmiset)-1)
+            await ctx.send(ihmiset[randnum].name)
+            return
+
     else:
-        ctx.send('Ilmoita, mikä rooli arvotaan \n Esim: !draw hunter 1')
-    kaikki = ctx.guild.members
-    ihmiset = []
-    for member in kaikki:
-        if not member.bot:
-            ihmiset.append(member)          
+        ctx.send('Ilmoita, mikä rooli arvotaan \n Esim: !draw hunter 1')        
     i = 0
     while i < arg2:
         randnum = random.randint(0, len(ihmiset)-1)
@@ -122,11 +133,14 @@ async def purgechat(ctx, args):
 @bot.command()
 async def timer(ctx, arg):
     if arg == 'start':
+        testi = time.time()
         await ctx.send(f'Ajastin käynnistetty {time.ctime()}')
     if arg == 'end':
         endtime = time.time()
-        await ctx.send(f'Ajastin pysäytetty. Pelin kesto: {starttime-endtime}')
+        await ctx.send(f'Ajastin pysäytetty. Pelin kesto: {testi-endtime}')
 
+
+handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 print('Debug')
 bot.run(TOKEN)
 
